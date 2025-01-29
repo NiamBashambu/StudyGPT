@@ -18,7 +18,7 @@ app.post('/generate-plan', async (req, res) => {
         }
 
         // Forward the request to the Python AI model
-        const response = await axios.post('http://backend-flask:5000/generate-plan', { assignments });
+        const response = await axios.post('https://backend-flask.onrender.com/generate-plan', { assignments });
 
         // Return the formatted study plans received from the Python AI model
         const formattedStudyPlans = response.data.map(plan => ({
