@@ -2,7 +2,7 @@
 FROM node:20
 
 # Set working directory
-WORKDIR /app
+WORKDIR /root/StudyGPT
 
 # Copy package files and install dependencies
 COPY package*.json ./

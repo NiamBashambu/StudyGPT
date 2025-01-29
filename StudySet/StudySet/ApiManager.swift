@@ -20,7 +20,7 @@ class APIManager {
     static let shared = APIManager()
     
     func generateStudyPlan(assignments: [Assignment], completion: @escaping (Result<[StudyPlanResponse], Error>) -> Void) {
-        guard let url = URL(string: "https://studygpt-k0uz.onrender.com/generate-plan") else {
+        guard let url = URL(string: "http://64.225.19.241/generate-plan") else {
             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
             return
         }
