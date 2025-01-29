@@ -1,3 +1,11 @@
+//
+//  ProgressBar.swift
+//  StudySet
+//
+//  Created by Niam Bashambu on 10/17/24.
+//
+
+
 import SwiftUI
 
 struct ProgressBar: View {
