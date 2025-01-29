@@ -4,6 +4,9 @@ from flask_cors import CORS
 import os
 import re
 import json
+from dotenv import load_dotenv
+load_dotenv()
+
 
 app = Flask(__name__)
 CORS(app)

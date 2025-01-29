@@ -7,6 +7,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+app.get('/', (req, res) => {
+    res.send('Hello from Node.js!');
+  });
+
 // Endpoint in Express.js to forward the request to Python AI model
 app.post('/generate-plan', async (req, res) => {
     console.log('Received data:', req.body); // Log incoming data
@@ -36,7 +40,7 @@ app.post('/generate-plan', async (req, res) => {
 });
 
 // Set the port dynamically for Heroku or use 3000 locally
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log(`Express server running on port ${PORT}`);
 });
