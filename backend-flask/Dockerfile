@@ -1,20 +1,18 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+# Use Python image
+FROM python:3.9
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the application code
+COPY . .
 
-# Make port 5000 available to the world outside this container
+# Expose the port
 EXPOSE 5000
 
-# Define environment variable
-ENV FLASK_APP=ai-model.py
-
-# Run Flask app when the container starts
-CMD ["flask", "run", "--host=0.0.0.0"]
+# Start the Flask app
+CMD ["python", "ai-model.py"]
