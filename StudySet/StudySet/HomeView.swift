@@ -6,14 +6,13 @@ struct HomeView: View {
     @State private var errorMessage: String?
     @State private var selectedPlan: StudyPlanResponse?
     @State private var showingStudyPlan = false
-    @State private var showOnboarding = true // Track if onboarding should be shown
+    @State private var showOnboarding = false // Track if onboarding should be shown
+    
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false // Persisted state
 
-   
     var body: some View {
         ZStack {
-            // Main HomeView content
             NavigationView {
-                
                 VStack {
                     List {
                         ForEach(studyPlans) { plan in
@@ -29,7 +28,6 @@ struct HomeView: View {
                             .foregroundColor(.red)
                     }
 
-                    // Button to switch to PlusButtonView
                     Button(action: {
                         selectedTab = 1
                     }) {
@@ -44,23 +42,32 @@ struct HomeView: View {
                 .padding()
                 .navigationTitle("Study Plans")
                 .sheet(item: $selectedPlan) { plan in
-                    PopupView(studyPlan: plan ,selectedTab: $selectedTab)
+                    PopupView(studyPlan: plan, selectedTab: $selectedTab)
                 }
             }
 
-            // Show OnboardingPopupView if showOnboarding is true
-            if showOnboarding {
-                Color.black.opacity(0.5) // Dimmed background
+            // Onboarding overlay
+            if showOnboarding && !hasCompletedOnboarding {
+                Color.black.opacity(0.5)
                     .edgesIgnoringSafeArea(.all)
 
                 OnboardingPopupView(isPresented: $showOnboarding)
-                    .transition(.move(edge: .bottom)) // Animate popup from the bottom
-                    .zIndex(1) // Ensure the popup is above other content
+                    .transition(.move(edge: .bottom))
+                    .zIndex(1)
+                    .onTapGesture {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            showOnboarding = false
+                            hasCompletedOnboarding = true
+                        }
+                    }
             }
         }
-        
         .onAppear {
-            // Check if it's the user's first launch or other conditions to show onboarding
+            if !hasCompletedOnboarding {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    showOnboarding = true
+                }
+            }
         }
     }
 
@@ -71,9 +78,9 @@ struct HomeView: View {
             HStack(alignment: .top, spacing: 16) {
                 // Icon for assignment type
                 Image(systemName: iconForAssignmentType(plan.type))
-                    .resizable() // Ensure the icon is resizable
-                    .aspectRatio(contentMode: .fit) // Maintain aspect ratio
-                    .frame(width: 40, height: 40) // Set a consistent size for all icons
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40, height: 40)
                     .foregroundColor(colorForAssignmentType(plan.type))
                     .padding(10)
                     .background(Color.white)
@@ -81,32 +88,27 @@ struct HomeView: View {
                     .overlay(
                         Circle().stroke(colorForAssignmentType(plan.type), lineWidth: 2)
                     )
-               
 
                 VStack(alignment: .leading) {
                     // Title
                     Text(plan.title)
                         .font(.headline)
                         .foregroundColor(Color.primary)
-                
 
                     // Due Date
                     Text("Due Date: \(plan.dueDate)")
                         .font(.subheadline)
                         .foregroundColor(Color.secondary)
-                     
+
                     // Type
                     Text("Type: \(plan.type)")
                         .font(.subheadline)
                         .foregroundColor(Color.secondary)
-                  
 
                     // Show a longer preview of the study plan
                     showStudyPlanPreview(plan.studyPlan, maxLines: 5)
-                   
                 }
                 .padding(.leading, 10)
-            
             }
             .padding(.vertical, 10)
             .padding(.horizontal)
@@ -116,10 +118,9 @@ struct HomeView: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(colorForAssignmentType(plan.type), lineWidth: 2)
-                    
             )
         }
-        .buttonStyle(PlainButtonStyle())// Use plain button style to avoid default button styling
+        .buttonStyle(PlainButtonStyle())
     }
 
     private func showStudyPlanPreview(_ studyPlan: [String], maxLines: Int) -> some View {
@@ -128,19 +129,19 @@ struct HomeView: View {
             ForEach(studyPlan.prefix(maxLines), id: \.self) { step in
                 Text(step)
                     .font(.body)
-                    .lineLimit(1) // Limit each step to one line
-                    .truncationMode(.tail) // Truncate if the text exceeds one line
-                    .foregroundColor(Color.primary) // Use dynamic color
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .foregroundColor(Color.primary)
             }
 
             // If there are more than maxLines, show ellipsis to indicate more content
             if studyPlan.count > maxLines {
-                Text("...") // Show ellipsis
+                Text("...")
                     .font(.body)
                     .foregroundColor(.gray)
             }
         }
-        .frame(maxHeight: 80) // Set a maximum height to prevent overflowing
+        .frame(maxHeight: 80)
     }
 
     func deleteStudyPlan(at offsets: IndexSet) {

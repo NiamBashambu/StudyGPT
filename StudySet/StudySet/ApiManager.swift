@@ -9,9 +9,9 @@ struct Assignment: Codable {
 }
 
 struct StudyPlanResponse: Codable, Identifiable {
-    let id = UUID().uuidString // Generates a unique ID for each study plan
+    let id: String
     let title: String
-    let studyPlan: [String] // Change this to an array of strings
+    let studyPlan: [String]
     let dueDate: String
     let type: String
 }
@@ -55,16 +55,13 @@ class APIManager {
             }
             
             do {
-                // Decode the response based on the expected structure
                 let studyPlans = try JSONDecoder().decode([StudyPlanResponse].self, from: data)
                 completion(.success(studyPlans))
             } catch {
-                // Print the raw data for debugging in case of decoding failure
                 print("Failed to decode: \(String(data: data, encoding: .utf8) ?? "No Data")")
                 completion(.failure(error))
             }
         }
-        
         task.resume()
     }
 }

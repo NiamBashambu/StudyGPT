@@ -78,6 +78,7 @@
 		293941322CC1623E00ACF15C /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		293941342CC1633F00ACF15C /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		293941362CC1634700ACF15C /* AnswerButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerButtonStyle.swift; sourceTree = "<group>"; };
+		2962B22C2D4AF6CF002F0383 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		299224642CA99CF200655483 /* StudySet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudySet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		299224672CA99CF200655483 /* StudySetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySetApp.swift; sourceTree = "<group>"; };
 		299224692CA99CF200655483 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -155,6 +156,7 @@
 		299224662CA99CF200655483 /* StudySet */ = {
 			isa = PBXGroup;
 			children = (
+				2962B22C2D4AF6CF002F0383 /* Info.plist */,
 				299AD1A32CAF0C8700BF0791 /* StudySet.entitlements */,
 				299224672CA99CF200655483 /* StudySetApp.swift */,
 				2939412D2CC160B200ACF15C /* QuizDataModel.xcdatamodeld */,
@@ -525,6 +527,7 @@
 				DEVELOPMENT_TEAM = V3S7RS9S6Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StudySet/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = StudyPlanGPT;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -536,7 +539,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0;
+				MARKETING_VERSION = 5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = NiamBashambu.StudySet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -561,6 +564,7 @@
 				DEVELOPMENT_TEAM = V3S7RS9S6Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StudySet/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = StudyPlanGPT;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -572,7 +576,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0;
+				MARKETING_VERSION = 5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = NiamBashambu.StudySet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

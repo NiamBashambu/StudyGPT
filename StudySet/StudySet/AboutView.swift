@@ -39,7 +39,7 @@ struct AboutView: View {
                 // Logo Section
                 HStack {
                     Spacer()
-                    Image("bci_logo") // Replace with your logo image name
+                    Image("your_logo") // Replace with your logo image name
                         .resizable()
                         .aspectRatio(contentMode: .fill) // Fill the frame without black bars
                         .frame(width: 150, height: 150)
