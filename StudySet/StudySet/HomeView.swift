@@ -6,9 +6,10 @@ struct HomeView: View {
     @State private var errorMessage: String?
     @State private var selectedPlan: StudyPlanResponse?
     @State private var showingStudyPlan = false
-    @State private var showOnboarding = false // Track if onboarding should be shown
-    
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false // Persisted state
+    @State private var showOnboarding = false // Local flag to control the popup animation
+
+    // Persisted flag that indicates if onboarding was completed
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
 
     var body: some View {
         ZStack {
@@ -46,16 +47,17 @@ struct HomeView: View {
                 }
             }
 
-            // Onboarding overlay
+            // Onboarding overlay: Only show if the onboarding hasn't been completed.
             if showOnboarding && !hasCompletedOnboarding {
                 Color.black.opacity(0.5)
                     .edgesIgnoringSafeArea(.all)
-
+                
                 OnboardingPopupView(isPresented: $showOnboarding)
                     .transition(.move(edge: .bottom))
                     .zIndex(1)
                     .onTapGesture {
                         withAnimation(.easeInOut(duration: 0.3)) {
+                            // Dismiss the onboarding and mark it as completed.
                             showOnboarding = false
                             hasCompletedOnboarding = true
                         }
@@ -63,6 +65,7 @@ struct HomeView: View {
             }
         }
         .onAppear {
+            // When the view appears, check if onboarding has already been completed.
             if !hasCompletedOnboarding {
                 withAnimation(.easeInOut(duration: 0.3)) {
                     showOnboarding = true
@@ -76,7 +79,6 @@ struct HomeView: View {
             selectedPlan = plan // Show the popup for the selected plan
         }) {
             HStack(alignment: .top, spacing: 16) {
-                // Icon for assignment type
                 Image(systemName: iconForAssignmentType(plan.type))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -90,22 +92,18 @@ struct HomeView: View {
                     )
 
                 VStack(alignment: .leading) {
-                    // Title
                     Text(plan.title)
                         .font(.headline)
                         .foregroundColor(Color.primary)
 
-                    // Due Date
                     Text("Due Date: \(plan.dueDate)")
                         .font(.subheadline)
                         .foregroundColor(Color.secondary)
 
-                    // Type
                     Text("Type: \(plan.type)")
                         .font(.subheadline)
                         .foregroundColor(Color.secondary)
 
-                    // Show a longer preview of the study plan
                     showStudyPlanPreview(plan.studyPlan, maxLines: 5)
                 }
                 .padding(.leading, 10)
@@ -125,7 +123,6 @@ struct HomeView: View {
 
     private func showStudyPlanPreview(_ studyPlan: [String], maxLines: Int) -> some View {
         VStack(alignment: .leading) {
-            // Show up to maxLines of the study plan
             ForEach(studyPlan.prefix(maxLines), id: \.self) { step in
                 Text(step)
                     .font(.body)
@@ -133,8 +130,6 @@ struct HomeView: View {
                     .truncationMode(.tail)
                     .foregroundColor(Color.primary)
             }
-
-            // If there are more than maxLines, show ellipsis to indicate more content
             if studyPlan.count > maxLines {
                 Text("...")
                     .font(.body)
